@@ -1,6 +1,3 @@
-"use server";
-import bcrypt from "bcrypt";
-
 interface CreateUserDTO {
   name: string;
   email: string;
@@ -8,16 +5,12 @@ interface CreateUserDTO {
 }
 
 export const createUser = async (data: CreateUserDTO) => {
-  const hashedPassword = await bcrypt.hash(data.password, 10);
   const response = await fetch("/api/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      ...data,
-      password: hashedPassword,
-    }),
+    body: JSON.stringify(data),
   });
   console.log(response, "service");
 

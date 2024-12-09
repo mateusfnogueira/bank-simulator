@@ -1,5 +1,6 @@
 "use client";
 import { Button, CreateAccountForm } from "@/components";
+import { LoginForm } from "@/components/login/login.component";
 import { useState } from "react";
 
 export default function Home() {
@@ -30,7 +31,7 @@ export default function Home() {
       <p className="text-center">
         Create a bank account and simulate transactions
       </p>
-      {children === "create-account" ? <CreateAccountForm /> : null}
+      {children === "create-account" ? <CreateAccountForm /> : <LoginForm />}
 
       <Button onClick={changeChildren}>{textButton()}</Button>
     </main>
