@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
+import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
   description: "Create a bank account and simulate transactions",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
