@@ -28,28 +28,30 @@ export function Header() {
           <Logo />
           <h1 className="text-xl font-bold">Bank Simulator</h1>
         </div>
-        <nav className="flex items-center gap-10">
-          <Link
-            href="/"
-            className={
-              pathname === "/"
-                ? "font-bold text-primary"
-                : "text-muted-foreground"
-            }
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/transactions"
-            className={
-              pathname === "/transactions"
-                ? "font-bold text-primary"
-                : "text-muted-foreground"
-            }
-          >
-            Transações
-          </Link>
-        </nav>
+        {session ? (
+          <nav className="flex items-center gap-10">
+            <Link
+              href="/"
+              className={
+                pathname === "/"
+                  ? "font-bold text-primary"
+                  : "text-muted-foreground"
+              }
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/transactions"
+              className={
+                pathname === "/transactions"
+                  ? "font-bold text-primary"
+                  : "text-muted-foreground"
+              }
+            >
+              Transações
+            </Link>
+          </nav>
+        ) : null}
       </div>
       {session ? (
         <DropdownMenu>
