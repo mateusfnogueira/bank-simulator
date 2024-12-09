@@ -8,10 +8,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Logo from "@public/icons/logo-main.svg";
+} from "@components/ui/dropdown-menu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 
 export function Header() {
   const { data: session } = useSession();
@@ -23,39 +23,43 @@ export function Header() {
 
   return (
     <header className="border-solidpx-8 flex items-center justify-between border-b bg-primary-foreground px-8 py-4">
-      <div className="flex justify-between gap-3">
+      <div className="flex justify-between gap-3 w-full">
         <div className="flex items-center gap-2">
-          <Logo />
           <h1 className="text-xl font-bold">Bank Simulator</h1>
         </div>
         {session ? (
-          <nav className="flex items-center gap-10">
-            <Link
-              href="/"
-              className={
-                pathname === "/"
-                  ? "font-bold text-primary"
-                  : "text-muted-foreground"
-              }
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/transactions"
-              className={
-                pathname === "/transactions"
-                  ? "font-bold text-primary"
-                  : "text-muted-foreground"
-              }
-            >
-              Transações
-            </Link>
-          </nav>
+          <div className="flex gap-8">
+            <nav className="hidden lg:flex items-center gap-10">
+              <Link
+                href="/"
+                className={
+                  pathname === "/"
+                    ? "font-bold text-primary"
+                    : "text-muted-foreground"
+                }
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/transactions"
+                className={
+                  pathname === "/transactions"
+                    ? "font-bold text-primary"
+                    : "text-muted-foreground"
+                }
+              >
+                Transações
+              </Link>
+            </nav>
+            <Button onClick={() => signOut()} className="text-muted-foreground">
+              Sair
+            </Button>
+          </div>
         ) : null}
       </div>
       {session ? (
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2 border-none">
+          <DropdownMenuTrigger className="lg:hidden flex items-center gap-2 border-none">
             <Image
               src={session.user?.image as string}
               alt="Avatar"
@@ -66,11 +70,15 @@ export function Header() {
             <span>{session.user?.name}</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onSelect={() => {}}>
-              <DropdownMenuLabel>Perfil</DropdownMenuLabel>
+            <DropdownMenuItem>
+              <DropdownMenuLabel>
+                <Link href={"/transaction"}>Extrato</Link>
+              </DropdownMenuLabel>
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => {}}>
-              <DropdownMenuLabel>Configurações</DropdownMenuLabel>
+            <DropdownMenuItem>
+              <DropdownMenuLabel>
+                <Link href={"/"}>Dashboard</Link>
+              </DropdownMenuLabel>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={() => signOut()}>
