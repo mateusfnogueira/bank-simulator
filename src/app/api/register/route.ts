@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   const { email, name, password } = await req.json();
-  console.log(email, name, password);
 
   if (!email || !password) {
     return NextResponse.json(

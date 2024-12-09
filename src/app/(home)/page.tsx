@@ -16,7 +16,7 @@ const lastTransactions: ITransaction[] = [
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col h-screen p-4">
+    <div className="flex h-screen p-4 gap-6 flex-col-reverse justify-end lg:flex-row">
       <LastTransactions lastTransactions={lastTransactions} />
       <TotalBalanceCard />
     </div>

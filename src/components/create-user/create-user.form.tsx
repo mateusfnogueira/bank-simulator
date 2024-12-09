@@ -34,7 +34,7 @@ export function CreateAccountForm() {
     };
     try {
       const resp = await createUser(user);
-      if (resp.ok) {
+      if (resp.id) {
         const result = await signIn("credentials", {
           email: user.email,
           password: user.password,

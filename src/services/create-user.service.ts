@@ -12,7 +12,6 @@ export const createUser = async (data: CreateUserDTO) => {
     },
     body: JSON.stringify(data),
   });
-  console.log(response, "service");
 
   return response.json();
 };

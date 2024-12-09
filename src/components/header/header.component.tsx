@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import {
   DropdownMenu,
@@ -17,10 +16,6 @@ export function Header() {
   const { data: session } = useSession();
   const pathname = usePathname();
 
-  if (!session) {
-    return null;
-  }
-
   return (
     <header className="border-solidpx-8 flex items-center justify-between border-b bg-primary-foreground px-8 py-4">
       <div className="flex justify-between gap-3 w-full">
@@ -28,8 +23,8 @@ export function Header() {
           <h1 className="text-xl font-bold">Bank Simulator</h1>
         </div>
         {session ? (
-          <div className="flex gap-8">
-            <nav className="hidden lg:flex items-center gap-10">
+          <div className="hidden lg:flex gap-8">
+            <nav className="flex items-center gap-10">
               <Link
                 href="/"
                 className={
@@ -60,13 +55,13 @@ export function Header() {
       {session ? (
         <DropdownMenu>
           <DropdownMenuTrigger className="lg:hidden flex items-center gap-2 border-none">
-            <Image
+            {/* <Image
               src={session.user?.image as string}
               alt="Avatar"
               className="h-8 w-8 rounded-full"
               width={32}
               height={32}
-            />
+            /> */}
             <span>{session.user?.name}</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
