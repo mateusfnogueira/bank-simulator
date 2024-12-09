@@ -41,7 +41,7 @@ export function CreateAccountForm() {
           redirect: false,
         });
         if (result?.ok) {
-          window.location.href = "/home";
+          window.location.href = "/";
         }
       }
     } catch (error) {

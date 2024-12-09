@@ -31,7 +31,7 @@ export function LoginForm() {
     signIn("credentials", {
       email: user.email,
       password: user.password,
-      callbackUrl: "/home",
+      callbackUrl: "/",
     });
   };
 

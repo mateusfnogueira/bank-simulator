@@ -11,6 +11,8 @@ export const AuthWrapper: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (status === "unauthenticated") {
+      router.push("/login");
+    } else if (status === "authenticated") {
       router.push("/");
     }
   }, [status, router]);
