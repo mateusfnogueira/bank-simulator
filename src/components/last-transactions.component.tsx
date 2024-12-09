@@ -13,19 +13,27 @@ interface LastTransactionsProps {
 export function LastTransactions({ lastTransactions }: LastTransactionsProps) {
   const getAmountColor = (transaction: ITransaction) => {
     if (transaction.type === TransactionType.OUTCOME) {
-      return "text-red-500";
+      return "text-red-500"
     }
     if (transaction.type === TransactionType.INCOME) {
-      return "text-primary";
+      return "text-green-500"
     }
-    return "text-white";
+    return "text-white"
   };
   const getAmountPrefix = (transaction: ITransaction) => {
     if (transaction.type === TransactionType.INCOME) {
-      return "+";
+      return "+"
     }
-    return "-";
+    return "-"
   };
+
+  if(lastTransactions.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-40">
+        <p className="text-muted-foreground">Nenhuma transação encontrada</p>
+      </div>
+    )
+  }
   return (
     <ScrollArea className="rounded-md border w-full">
       <CardHeader className="flex-row items-center justify-between">

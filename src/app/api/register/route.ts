@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  await prisma.transaction.create({
+  const transaction = await prisma.transaction.create({
     data: {
       amount: 10000,
       title: "Initial deposit",
@@ -43,6 +43,13 @@ export async function POST(req: NextRequest) {
       userId: user.id,
       category: "Salary",
     },
+  });
+
+  console.log(transaction);
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { totalBalance: transaction.amount },
   });
 
   return NextResponse.json(user, { status: 201 });

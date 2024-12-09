@@ -1,24 +1,22 @@
 import { LastTransactions, TotalBalanceCard } from "@/components";
-import { ITransaction } from "@/interfaces/transactions.interface";
+import { getSession } from "@/lib/session";
+import { getLastTransactions } from "@/services/get-transactions.service";
 
-const lastTransactions: ITransaction[] = [
-  {
-    id: "1",
-    userId: "1",
-    title: "Teste",
-    amount: 100,
-    type: "INCOME",
-    category: "teste",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await getSession();
+
+  const lastTransactions = await getLastTransactions({
+    userId: session?.user.id as string,
+  });
+
+  if (!session) {
+    return null;
+  }
   return (
     <div className="flex h-screen p-4 gap-6 flex-col-reverse justify-end lg:flex-row">
-      <LastTransactions lastTransactions={lastTransactions} />
-      <TotalBalanceCard />
+      <LastTransactions lastTransactions={lastTransactions.transactions} />
+      <TotalBalanceCard session={session} />
     </div>
   );
 }

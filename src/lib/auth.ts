@@ -48,10 +48,21 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      const user = await prisma.user.findUnique({
+        where: { id: token.id as string },
+      });
+
       if (session?.user) {
+        session.user.id = user?.id as string;
         session.user.email = token.email;
+        session.user.name = token.name;
+        session.user.totalBalance = Number(user?.totalBalance);
+        session.user.specialBalance = Number(user?.specialBalance);
       }
       return session;
+    },
+    async signIn({ user, account, profile }) {
+      return true;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
