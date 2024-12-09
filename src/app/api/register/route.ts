@@ -1,32 +1,35 @@
 import { PrismaClient } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from "bcrypt";
+import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const { email, name, password } = req.body;
-  console.log(req.body, "req.body");
+export async function POST(req: NextRequest) {
+  const { email, name, password } = await req.json();
+  console.log(email, name, password);
 
   if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required" });
+    return NextResponse.json(
+      { error: "Email and password are required" },
+      { status: 400 }
+    );
   }
 
   const existingUser = await prisma.user.findUnique({ where: { email } });
 
   if (existingUser) {
-    return res.status(400).json({ error: "Email already in use" });
+    return NextResponse.json(
+      { error: "Email already in use" },
+      { status: 400 }
+    );
   }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await prisma.user.create({
     data: {
       email,
       name,
-      password: hashedPassword,
+      password,
     },
   });
 
-  return res.status(201).json(user);
+  return NextResponse.json(user, { status: 201 });
 }

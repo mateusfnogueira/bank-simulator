@@ -1,8 +1,10 @@
+import { authOptions } from "@/lib/auth";
 import "./globals.css";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
-import { redirect } from "next/navigation";
+import { InstallProviders } from "@/providers/install-providers";
+import { AuthWrapper } from "@/providers/auth-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,9 +18,15 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <InstallProviders session={session} locale="en">
+          <AuthWrapper>{children}</AuthWrapper>
+        </InstallProviders>
+      </body>
     </html>
   );
 }
