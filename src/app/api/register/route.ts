@@ -30,7 +30,18 @@ export async function POST(req: NextRequest) {
     data: {
       email,
       name,
+      totalBalance: 0,
       password: hashedPassword,
+    },
+  });
+
+  await prisma.transaction.create({
+    data: {
+      amount: 10000,
+      title: "Initial deposit",
+      type: "DEPOSIT",
+      userId: user.id,
+      category: "Salary",
     },
   });
 
