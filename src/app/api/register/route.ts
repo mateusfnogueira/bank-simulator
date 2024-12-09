@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, TransactionType } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 
@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
       email,
       name,
       totalBalance: 0,
+      specialBalance: 500,
       password: hashedPassword,
     },
   });
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
     data: {
       amount: 10000,
       title: "Initial deposit",
-      type: "DEPOSIT",
+      type: TransactionType.INCOME,
       userId: user.id,
       category: "Salary",
     },
