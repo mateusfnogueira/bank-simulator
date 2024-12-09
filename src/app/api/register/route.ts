@@ -45,8 +45,6 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  console.log(transaction);
-
   await prisma.user.update({
     where: { id: user.id },
     data: { totalBalance: transaction.amount },
