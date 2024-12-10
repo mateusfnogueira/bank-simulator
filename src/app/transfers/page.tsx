@@ -31,7 +31,6 @@ import { redirect } from 'next/navigation'
 
 export default function TransfersPage() {
   const session = useSession()
-  // const [pixData, setPixData] = useState<any | null>(null)
 
   const form = useForm<FormType>({
     resolver: zodResolver(Schema),
@@ -46,13 +45,6 @@ export default function TransfersPage() {
   })
 
   const { isValid } = form.formState
-
-  async function consultaChavePix(pixKey: string) {
-    const response = await fetch(`/api/validate?pixKey=${pixKey}`)
-    const data = await response.json()
-    console.log(data)
-    // setPixData(data)
-  }
 
   const onSubmit = async (data: FormType) => {
     const transfer: ITransaction = {
@@ -126,10 +118,6 @@ export default function TransfersPage() {
                 <FormControl>
                   <Input
                     {...field}
-                    onBlur={(e) => {
-                      field.onBlur()
-                      consultaChavePix(e.target.value)
-                    }}
                     placeholder="Digite a chave pix..."
                   />
                 </FormControl>
