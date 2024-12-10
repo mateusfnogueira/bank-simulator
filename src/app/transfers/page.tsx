@@ -27,10 +27,11 @@ import {
 } from 'react-number-format'
 import { useSession } from 'next-auth/react'
 import { addTransaction } from '@/services/add-transaction'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export default function TransfersPage() {
   const session = useSession()
+    const router = useRouter()
 
   const form = useForm<FormType>({
     resolver: zodResolver(Schema),
@@ -67,7 +68,7 @@ export default function TransfersPage() {
     try {
       const resp = await addTransaction(transfer)
       if (resp.transaction.id) {
-        redirect('/dashboard')
+        router.push('/')
       }
     } catch (err) {
       console.log(err)
