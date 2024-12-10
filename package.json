@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate": "prisma generate",
+    "migrate": "prisma migrate deploy",
     "dev": "next dev",
-    "build": "npm install --legacy-peer-deps && next build",
+    "build": "npm install --legacy-peer-deps && npm run generate && npm run migrate && next build",
     "start": "next start",
     "lint": "next lint",
     "prisma:migrate": "prisma migrate dev"
