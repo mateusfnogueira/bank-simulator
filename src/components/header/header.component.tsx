@@ -45,6 +45,16 @@ export function Header() {
               >
                 Transações
               </Link>
+              <Link
+                href="/transfers"
+                className={
+                  pathname === "/transfers"
+                    ? "font-bold text-primary"
+                    : "text-muted-foreground"
+                }
+              >
+                Efetuar transferência
+              </Link>
             </nav>
             <Button onClick={() => signOut()} className="text-muted-foreground">
               Sair
@@ -90,6 +100,20 @@ export function Header() {
                   href={"/"}
                 >
                   Dashboard
+                </Link>
+              </DropdownMenuLabel>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <DropdownMenuLabel>
+                <Link
+                  className={
+                    pathname === "/transfers"
+                      ? "font-bold text-primary"
+                      : "text-muted-foreground"
+                  }
+                  href={"/transfers"}
+                >
+                  Efetuar transferência
                 </Link>
               </DropdownMenuLabel>
             </DropdownMenuItem>
