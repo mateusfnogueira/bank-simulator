@@ -5,17 +5,12 @@ import { getSession } from "@/lib/session";
 import { formatCurrency } from "@/utils/currency.util";
 
 export default async function TransactionsPage() {
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
-  console.log("inicio");
   try {
     const session = await getSession();
-    console.log("session", session);
     if (!session) {
-      console.log("no session");
       return null;
     }
     const data = await getAllTransactions({ userId: session.user.id });
-    console.log("data", data);
 
     return (
       <div className="px-2">
