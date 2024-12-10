@@ -50,5 +50,12 @@ export async function POST(req: NextRequest) {
     data: { totalBalance: transaction.amount },
   });
 
-  return NextResponse.json(user, { status: 201 });
+  const resp = NextResponse.json(user, { status: 201 });
+  resp.headers.set("Access-Control-Allow-Origin", "*");
+  resp.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  resp.headers.set(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  return resp;
 }
