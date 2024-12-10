@@ -1,21 +1,19 @@
-"use client";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+'use client'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export const AuthWrapper: React.FC<{ children: React.ReactNode }> = ({
-  children,
+  children
 }) => {
-  const { status } = useSession();
-  const router = useRouter();
+  const { status } = useSession()
+  const router = useRouter()
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    } else if (status === "authenticated") {
-      router.push("/");
+    if (status === 'unauthenticated') {
+      router.push('/login')
     }
-  }, [status, router]);
+  }, [status, router])
 
-  return <>{children}</>;
-};
+  return <>{children}</>
+}
