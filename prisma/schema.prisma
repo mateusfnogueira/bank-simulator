@@ -24,7 +24,8 @@ model Transaction {
   title     String
   type      TransactionType
   amount    Float
-  category  String
+  recipient String?
+  category  String?
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
   userId    String
@@ -36,4 +37,11 @@ enum TransactionType {
   OUTCOME
   TRANSFER
   INVESTMENT
+}
+
+enum TransactionCategory {
+  PIX
+  TED
+  DOC
+  DEPOSIT
 }

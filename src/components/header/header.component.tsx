@@ -67,12 +67,30 @@ export function Header() {
           <DropdownMenuContent>
             <DropdownMenuItem>
               <DropdownMenuLabel>
-                <Link href={"/transaction"}>Extrato</Link>
+                <Link
+                  className={
+                    pathname === "/transactions"
+                      ? "font-bold text-primary"
+                      : "text-muted-foreground"
+                  }
+                  href={"/transactions"}
+                >
+                  Extrato
+                </Link>
               </DropdownMenuLabel>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <DropdownMenuLabel>
-                <Link href={"/"}>Dashboard</Link>
+                <Link
+                  className={
+                    pathname === "/"
+                      ? "font-bold text-primary"
+                      : "text-muted-foreground"
+                  }
+                  href={"/"}
+                >
+                  Dashboard
+                </Link>
               </DropdownMenuLabel>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
