@@ -1,11 +1,11 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import {
+  Card,
   CardContent,
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import Link from 'next/link'
 import { formatCurrency } from '@/utils/currency.util'
 import { TransactionType } from '@prisma/client'
@@ -44,7 +44,7 @@ export function LastTransactions({
     )
   }
   return (
-    <ScrollArea className="w-full rounded-md border">
+    <Card className="h-[400px] w-full overflow-auto border">
       <CardHeader className="flex-row items-center justify-between">
         <CardTitle className="font-bold">
           Últimas Transações
@@ -86,6 +86,6 @@ export function LastTransactions({
           </div>
         ))}
       </CardContent>
-    </ScrollArea>
+    </Card>
   )
 }
