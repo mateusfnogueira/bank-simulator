@@ -14,7 +14,6 @@ import { useForm } from 'react-hook-form'
 import { FormType, Schema } from './schema'
 import { ITransaction } from '@/interfaces/transactions.interface'
 import { TransactionType } from '@prisma/client'
-import { useState } from 'react'
 import { Select } from '@radix-ui/react-select'
 import {
   SelectContent,
@@ -32,7 +31,7 @@ import { redirect } from 'next/navigation'
 
 export default function TransfersPage() {
   const session = useSession()
-  const [pixData, setPixData] = useState<any | null>(null)
+  // const [pixData, setPixData] = useState<any | null>(null)
 
   const form = useForm<FormType>({
     resolver: zodResolver(Schema),
@@ -52,7 +51,7 @@ export default function TransfersPage() {
     const response = await fetch(`/api/validate?pixKey=${pixKey}`)
     const data = await response.json()
     console.log(data)
-    setPixData(data)
+    // setPixData(data)
   }
 
   const onSubmit = async (data: FormType) => {
