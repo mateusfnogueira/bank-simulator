@@ -1,5 +1,5 @@
-"use client";
-import { useForm } from "react-hook-form";
+'use client'
+import { useForm } from 'react-hook-form'
 import {
   Button,
   Form,
@@ -8,36 +8,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@/components";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { FormType, Schema } from "./schema";
+  Input
+} from '@/components'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { signIn } from 'next-auth/react'
+import { FormType, Schema } from './schema'
 
 export function LoginForm() {
   const form = useForm<FormType>({
     resolver: zodResolver(Schema),
     defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+      email: '',
+      password: ''
+    }
+  })
+
+  const { isValid } = form.formState
 
   const onSubmit = async (data: FormType) => {
     const user = {
       email: data.email,
-      password: data.password,
-    };
-    signIn("credentials", {
+      password: data.password
+    }
+    signIn('credentials', {
       email: user.email,
       password: user.password,
-      callbackUrl: "/",
-    });
-  };
+      callbackUrl: '/'
+    })
+  }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -72,8 +77,10 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Login</Button>
+        <Button disabled={!isValid} type="submit">
+          Login
+        </Button>
       </form>
     </Form>
-  );
+  )
 }
