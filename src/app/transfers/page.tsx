@@ -10,7 +10,7 @@ import {
   Input
 } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { FormType, Schema } from './schema'
 import { ITransaction } from '@/interfaces/transactions.interface'
 import { TransactionType } from '@prisma/client'
@@ -26,8 +26,12 @@ import {
   NumericFormat,
   NumberFormatBase as NumberFormat
 } from 'react-number-format'
+import { useSession } from 'next-auth/react'
+import { addTransaction } from '@/services/add-transaction'
+import { redirect } from 'next/navigation'
 
 export default function TransfersPage() {
+  const session = useSession()
   const [pixData, setPixData] = useState<any | null>(null)
 
   const form = useForm<FormType>({
@@ -41,6 +45,8 @@ export default function TransfersPage() {
       amount: '0'
     }
   })
+
+  const { isValid } = form.formState
 
   async function consultaChavePix(pixKey: string) {
     const response = await fetch(`/api/validate?pixKey=${pixKey}`)
@@ -58,12 +64,27 @@ export default function TransfersPage() {
           ? (data.pixKey as string)
           : `${data.bank} - ${data.account}`,
       category: data.type.toUpperCase(),
-      amount: Number(data.amount),
-      userId: '1'
+      amount: Number(
+        data.amount
+          .replace('R$ ', '')
+          .replace('.', '')
+          .replace(',', '.')
+      ),
+      userId: session.data?.user.id as string
     }
 
-    console.log(transfer)
-    alert(transfer)
+    try {
+      const resp = await addTransaction(transfer)
+      if (resp.transaction.id) {
+        redirect('/dashboard')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  if (!session) {
+    return null
   }
 
   return (
@@ -139,30 +160,19 @@ export default function TransfersPage() {
               <FormItem className="w-full">
                 <FormLabel>Conta</FormLabel>
                 <FormControl>
-                  <Controller
-                    name="account"
-                    control={form.control}
-                    disabled={form.watch('type') === 'pix'}
-                    render={({ field }) => (
-                      <NumberFormat
-                        {...field}
-                        format={(inputValue: string) => {
-                          const cleaned = inputValue.replace(
-                            /\D/g,
-                            ''
-                          )
-                          const match =
-                            cleaned.match(/^(\d{6})(\d{1})$/)
-                          if (match) {
-                            return `${match[1]}-${match[2]}`
-                          }
-                          return inputValue
-                        }}
-                        maxLength={8}
-                        placeholder="Digite a conta..."
-                        customInput={Input}
-                      />
-                    )}
+                  <NumberFormat
+                    {...field}
+                    format={(inputValue: string) => {
+                      const cleaned = inputValue.replace(/\D/g, '')
+                      const match = cleaned.match(/^(\d{6})(\d{1})$/)
+                      if (match) {
+                        return `${match[1]}-${match[2]}`
+                      }
+                      return inputValue
+                    }}
+                    maxLength={8}
+                    placeholder="Digite a conta..."
+                    customInput={Input}
                   />
                 </FormControl>
                 <FormMessage />
@@ -176,22 +186,16 @@ export default function TransfersPage() {
               <FormItem className="w-full">
                 <FormLabel>Valor</FormLabel>
                 <FormControl>
-                  <Controller
-                    name="amount"
-                    control={form.control}
-                    render={({ field }) => (
-                      <NumericFormat
-                        {...field}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        prefix="R$ "
-                        placeholder="Digite o valor da transferência..."
-                        customInput={Input}
-                        onValueChange={(values) => {
-                          field.onChange(values.value)
-                        }}
-                      />
-                    )}
+                  <NumericFormat
+                    {...field}
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    prefix="R$ "
+                    placeholder="Digite o valor da transferência..."
+                    customInput={Input}
+                    onValueChange={(values) => {
+                      field.onChange(values.value)
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -200,6 +204,7 @@ export default function TransfersPage() {
           />
           <Button
             className="mt-3"
+            disabled={!isValid}
             onClick={form.handleSubmit(onSubmit)}
           >
             Transferir
