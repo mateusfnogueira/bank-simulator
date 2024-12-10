@@ -28,14 +28,11 @@
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "eslint": "9.16.0",
-    "eslint-config-next": "15.0.4",
     "lucide-react": "^0.468.0",
     "next": "15.0.4",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.9.16",
     "postcss": "8.4.49",
-    "prettier": "^3.4.2",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.54.0",
@@ -47,6 +44,10 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "prisma": "^6.0.1"
+    "prisma": "^6.0.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "eslint": "9.16.0",
+    "eslint-config-next": "15.0.4"
   }
 }
