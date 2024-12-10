@@ -15,6 +15,7 @@ export default async function TransactionsPage() {
       return null;
     }
     const data = await getAllTransactions({ userId: session.user.id });
+    console.log("data", data);
 
     return (
       <div className="px-2">
